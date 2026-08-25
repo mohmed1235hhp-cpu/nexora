@@ -14,7 +14,7 @@
     "@aws-sdk/s3-request-presigner": "^3.700.0",
     "@workspace/media-core": "workspace:*",
     "mammoth": "^1.8.0",
-    "pdf-parse": "^1.1.1",
+    "pdf-parse": "^2.4.5",
     "tesseract.js": "^5.1.0",
     "xlsx": "^0.18.5",
     "zod": "catalog:"
