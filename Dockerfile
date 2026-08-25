@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7
 # Multi-stage build — optimized for size, cached deps, non-root runtime
-FROM node:22-alpine AS base
+FROM node:26-alpine AS base
 RUN corepack enable && corepack prepare pnpm@9 --activate
 WORKDIR /app
 
@@ -19,7 +19,7 @@ FROM deps AS build
 RUN pnpm -r --if-present run build
 
 # ---- runtime stage ----
-FROM node:22-alpine AS runtime
+FROM node:26-alpine AS runtime
 RUN corepack enable && corepack prepare pnpm@9 --activate
 RUN addgroup -g 1001 app && adduser -u 1001 -G app -D -s /bin/sh app
 WORKDIR /app
