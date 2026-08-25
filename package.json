@@ -22,11 +22,5 @@
     "lightningcss-android-arm64": "^1.33.0",
     "prettier": "^3.8.4",
     "typescript": "~5.9.3"
-  },
-  "pnpm": {
-    "neverBuiltDependencies": [
-      "argon2",
-      "bcrypt"
-    ]
   }
 }
