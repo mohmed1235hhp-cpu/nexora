@@ -1,7 +1,90 @@
-import { useEffect(() => { load(); }, []);
+import { useEffect, useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
-import { Card,CardContent,CardHeader,CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { csrfHeaders } from "@/lib/csrf";
-export default function Referrals(){const [data,setData]=useState<any>();const [code,setCode]=useState("");const [message,setMessage]=useState("");const load=()=>fetch("/api/referrals",{credentials:"include"}).then(async r=>{const body=await r.json();if(!r.ok)throw new Error(body.error||"تعذر تحميل الدعوات");return body;}).then(setData).catch(e=>setMessage(e.message));useEffect(load,[]);const claim=async()=>{setMessage("");const r=await fetch("/api/referrals/claim",{method:"POST",headers:{"Content-Type":"application/json",...csrfHeaders()},credentials:"include",body:JSON.stringify({code})});const body=await r.json();if(!r.ok){setMessage(body.error||"تعذر تفعيل الكود");return;}setMessage(`تم التفعيل: +${body.inviteeReward} نقطة لك`);setCode("");load();};const shareLink=data?.code?`${window.location.origin}/register?ref=${encodeURIComponent(data.code)}`:"";return <AppLayout><div className="max-w-2xl mx-auto space-y-5"><h1 className="text-3xl font-black">دعوة الأصدقاء</h1><Card><CardHeader><CardTitle>كود دعوتك</CardTitle></CardHeader><CardContent className="space-y-3"><div className="text-2xl font-mono">{data?.code||"..."}</div><p>مكافآتك: {data?.rewards||0} نقطة</p>{shareLink&&<><Input readOnly value={shareLink}/><Button onClick={()=>navigator.clipboard?.writeText(shareLink)}>نسخ رابط الدعوة</Button></>}</CardContent></Card><Card><CardHeader><CardTitle>استخدم كود صديق</CardTitle></CardHeader><CardContent className="flex gap-2"><Input value={code} onChange={e=>setCode(e.target.value)} placeholder="كود الدعوة"/><Button onClick={claim} disabled={!code.trim()}>تفعيل</Button></CardContent></Card>{message&&<p className="text-sm text-muted-foreground">{message}</p>}</div></AppLayout>}
+
+export default function Referrals() {
+  const [data, setData] = useState<any>();
+  const [code, setCode] = useState("");
+  const [message, setMessage] = useState("");
+
+  const load = () =>
+    fetch("/api/referrals", { credentials: "include" })
+      .then(async (r) => {
+        const body = await r.json();
+        if (!r.ok) throw new Error(body.error || "تعذر تحميل الدعوات");
+        return body;
+      })
+      .then(setData)
+      .catch((e) => setMessage(e.message));
+
+  useEffect(load, []);
+
+  const claim = async () => {
+    setMessage("");
+    const r = await fetch("/api/referrals/claim", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...csrfHeaders() },
+      credentials: "include",
+      body: JSON.stringify({ code }),
+    });
+    const body = await r.json();
+    if (!r.ok) {
+      setMessage(body.error || "تعذر تفعيل الكود");
+      return;
+    }
+    setMessage(`تم التفعيل: +${body.inviteeReward} نقطة لك`);
+    setCode("");
+    load();
+  };
+
+  const shareLink = data?.code
+    ? `${window.location.origin}/register?ref=${encodeURIComponent(data.code)}`
+    : "";
+
+  return (
+    <AppLayout>
+      <div className="max-w-2xl mx-auto space-y-5">
+        <h1 className="text-3xl font-black">دعوة الأصدقاء</h1>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>كود دعوتك</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="text-2xl font-mono">{data?.code || "..."}</div>
+            <p>مكافآتك: {data?.rewards || 0} نقطة</p>
+            {shareLink && (
+              <>
+                <Input readOnly value={shareLink} />
+                <Button onClick={() => navigator.clipboard?.writeText(shareLink)}>
+                  نسخ رابط الدعوة
+                </Button>
+              </>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>استخدم كود صديق</CardTitle>
+          </CardHeader>
+          <CardContent className="flex gap-2">
+            <Input
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              placeholder="كود الدعوة"
+            />
+            <Button onClick={claim} disabled={!code.trim()}>
+              تفعيل
+            </Button>
+          </CardContent>
+        </Card>
+
+        {message && <p className="text-sm text-muted-foreground">{message}</p>}
+      </div>
+    </AppLayout>
+  );
+}
