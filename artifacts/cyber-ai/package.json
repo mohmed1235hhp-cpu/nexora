@@ -72,7 +72,7 @@
     "zod": "catalog:"
   },
   "dependencies": {
-    "@sentry/react": "^10.64.0",
+    "@sentry/react": "^10.70.0",
     "i18next": "^26.3.5",
     "react-i18next": "^17.0.8"
   }
