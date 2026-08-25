@@ -26,7 +26,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@ai-sdk/openai-compatible": "^0.1.0",
+    "@ai-sdk/openai-compatible": "^3.0.35",
     "@workspace/agents": "workspace:*",
     "@workspace/ai-core": "workspace:*",
     "@workspace/core": "workspace:*",
