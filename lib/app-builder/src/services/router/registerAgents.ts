@@ -1,0 +1,37 @@
+import { agentRouter } from "./AgentRouter";
+import { analyzerAgent } from "../agents/AnalyzerAgent";
+import { plannerAgent } from "../agents/PlannerAgent";
+import { architectAgent } from "../agents/ArchitectAgent";
+import { uiAgent } from "../agents/UIAgent";
+import { navigationAgent } from "../agents/NavigationAgent";
+import { stateAgent } from "../agents/StateAgent";
+import { logicAgent } from "../agents/LogicAgent";
+import { apiAgent } from "../agents/ApiAgent";
+import { storageAgent } from "../agents/StorageAgent";
+import { validationAgent } from "../agents/ValidationAgent";
+import { assetsAgent } from "../agents/AssetsAgent";
+import { reviewerAgent } from "../agents/ReviewerAgent";
+import { fixerAgent } from "../agents/FixerAgent";
+import { testerAgent } from "../agents/TesterAgent";
+import { builderAgent } from "../agents/BuilderAgent";
+import { previewAgent } from "../agents/PreviewAgent";
+import { reporterAgent } from "../agents/ReporterAgent";
+export function registerAllAgents(): void {
+  agentRouter.register(analyzerAgent);
+  agentRouter.register(plannerAgent);
+  agentRouter.register(architectAgent);
+  agentRouter.register(uiAgent);
+  agentRouter.register(navigationAgent);
+  agentRouter.register(stateAgent);
+  agentRouter.register(logicAgent);
+  agentRouter.register(apiAgent);
+  agentRouter.register(storageAgent);
+  agentRouter.register(validationAgent);
+  agentRouter.register(assetsAgent);
+  agentRouter.register(reviewerAgent);
+  agentRouter.register(fixerAgent);
+  agentRouter.register(testerAgent);
+  agentRouter.register(builderAgent);
+  agentRouter.register(previewAgent);
+  agentRouter.register(reporterAgent);
+}

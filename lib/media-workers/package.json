@@ -1,0 +1,28 @@
+{
+  "name": "@workspace/media-workers",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc -p tsconfig.build.json",
+    "worker:image": "node --loader tsx src/workers/image.worker.ts",
+    "worker:voice": "node --loader tsx src/workers/voice.worker.ts",
+    "worker:ocr": "node --loader tsx src/workers/ocr.worker.ts",
+    "worker:documents": "node --loader tsx src/workers/documents.worker.ts"
+  },
+  "dependencies": {
+    "@workspace/media-adapters": "workspace:*",
+    "@workspace/media-core": "workspace:*",
+    "@workspace/media-db": "workspace:*",
+    "bullmq": "^5.28.0",
+    "ioredis": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "~5.9.3"
+  }
+}

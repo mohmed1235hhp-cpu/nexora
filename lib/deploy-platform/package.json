@@ -1,0 +1,31 @@
+{
+  "name": "@workspace/deploy-platform",
+  "version": "0.1.0-phase1",
+  "private": true,
+  "type": "module",
+  "description": "Internal build/deploy/host platform (Phase 1 scaffold).",
+  "exports": {
+    ".": "./src/index.ts",
+    "./interfaces": "./src/interfaces/index.ts",
+    "./types": "./src/types/index.ts",
+    "./build": "./src/build/index.ts",
+    "./queue": "./src/queue/index.ts",
+    "./workers": "./src/workers/index.ts",
+    "./hosting": "./src/hosting/index.ts",
+    "./server-manager": "./src/server-manager/index.ts",
+    "./artifacts": "./src/artifacts/index.ts",
+    "./reports": "./src/reports/index.ts",
+    "./monitoring": "./src/monitoring/index.ts",
+    "./preview": "./src/preview/index.ts",
+    "./timeline": "./src/timeline/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "vitest": "^2.1.9"
+  }
+}

@@ -1,0 +1,23 @@
+export const PIPELINE_STAGES = [
+  { key: "AnalyzeRequest", label: "تحليل الطلب", emoji: "🧠" },
+  { key: "CreatePlan", label: "إنشاء الخطة", emoji: "📋" },
+  { key: "DesignArchitecture", label: "تصميم التطبيق", emoji: "🏗" },
+  { key: "CreateStructure", label: "بنية المشروع", emoji: "📁" },
+  { key: "GenerateUI", label: "إنشاء الشاشات", emoji: "📱" },
+  { key: "GenerateNavigation", label: "التنقل", emoji: "🧭" },
+  { key: "GenerateComponents", label: "المكونات", emoji: "🧩" },
+  { key: "GenerateState", label: "State", emoji: "🗂" },
+  { key: "GenerateLogic", label: "المنطق", emoji: "⚙️" },
+  { key: "GenerateApis", label: "APIs", emoji: "🔌" },
+  { key: "GenerateStorage", label: "Storage", emoji: "💾" },
+  { key: "GenerateValidation", label: "التحقق", emoji: "✔" },
+  { key: "GenerateAssets", label: "الأصول", emoji: "🎨" },
+  { key: "CodeReview", label: "مراجعة الكود", emoji: "🔍" },
+  { key: "FixErrors", label: "إصلاح الأخطاء", emoji: "🛠" },
+  { key: "RunTests", label: "الاختبارات", emoji: "🧪" },
+  { key: "Build", label: "Build", emoji: "📦" },
+  { key: "GeneratePreview", label: "المعاينة", emoji: "👁" },
+  { key: "GenerateInternalUrl", label: "الرابط الداخلي", emoji: "🌐" },
+  { key: "GenerateFinalReport", label: "التقرير النهائي", emoji: "📄" },
+] as const;
+export type PipelineStageKey = typeof PIPELINE_STAGES[number]["key"];

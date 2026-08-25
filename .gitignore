@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+.turbo/
+.vite/
+.next/
+
+# Test / coverage
+coverage/
+
+# Env files (never commit real secrets)
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Playwright / e2e artifacts
+playwright-report/
+test-results/
+blob-report/
+
+# Misc local state
+.storage/
+attached_assets/

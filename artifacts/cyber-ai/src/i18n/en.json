@@ -1,0 +1,6 @@
+{
+  "app": { "name": "Cyber AI", "tagline": "Arab creators platform" },
+  "nav": { "home": "Home", "feed": "Feed", "profile": "Profile", "chat": "Chat", "notifications": "Notifications", "signin": "Sign in", "signout": "Sign out" },
+  "auth": { "email": "Email", "password": "Password", "username": "Username", "register": "Create account", "forgot": "Forgot password?" },
+  "common": { "save": "Save", "cancel": "Cancel", "delete": "Delete", "edit": "Edit", "loading": "Loading…", "error": "An error occurred", "retry": "Retry", "empty": "No data" }
+}

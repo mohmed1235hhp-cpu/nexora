@@ -1,0 +1,30 @@
+# Non-secret runtime config. Secrets belong in a separate Secret manifest.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cyberai-config
+  namespace: cyberai
+data:
+  NODE_ENV: "production"
+  PORT: "3000"
+  LOG_LEVEL: "info"
+  SLOW_QUERY_MS: "500"
+  QUEUE_DRIVER: "bullmq"
+  STORAGE_DRIVER: "s3"
+  ALLOWED_ORIGINS: "https://app.cyberai.example"
+  COOKIE_SECURE: "true"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cyberai-secrets
+  namespace: cyberai
+type: Opaque
+stringData:
+  # Populate via sealed-secrets / SOPS / external-secrets. Do not commit real values.
+  DATABASE_URL: "postgres://cyberai:CHANGE_ME@postgres:5432/cyberai"
+  REDIS_URL: "redis://redis:6379"
+  STORAGE_BUCKET: "cyberai-prod"
+  STORAGE_ACCESS_KEY_ID: "CHANGE_ME"
+  STORAGE_SECRET_ACCESS_KEY: "CHANGE_ME"
+  MASTER_ENCRYPTION_KEY: "CHANGE_ME_BASE64_32B"

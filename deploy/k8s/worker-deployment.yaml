@@ -1,0 +1,43 @@
+# Background workers — same image, different entrypoint. Scale independently
+# of the HTTP API. Uses the same secrets/config as the API deployment.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cyberai-worker
+  namespace: cyberai
+  labels: { app: cyberai-worker }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: cyberai-worker } }
+  template:
+    metadata:
+      labels: { app: cyberai-worker }
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+        - name: worker
+          image: ghcr.io/your-org/cyberai:latest
+          command: ["node", "--enable-source-maps", "artifacts/api-server/dist/worker.mjs"]
+          envFrom:
+            - configMapRef: { name: cyberai-config }
+            - secretRef:    { name: cyberai-secrets }
+          resources:
+            requests: { cpu: "500m", memory: "1Gi"  }
+            limits:   { cpu: "4",    memory: "4Gi"  }
+          livenessProbe:
+            exec: { command: ["node", "-e", "process.exit(0)"] }
+            initialDelaySeconds: 15
+            periodSeconds: 30
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: cyberai-worker
+  namespace: cyberai
+spec:
+  scaleTargetRef: { apiVersion: apps/v1, kind: Deployment, name: cyberai-worker }
+  minReplicas: 2
+  maxReplicas: 30
+  metrics:
+    - type: Resource
+      resource: { name: cpu, target: { type: Utilization, averageUtilization: 70 } }

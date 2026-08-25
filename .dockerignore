@@ -1,0 +1,15 @@
+**/node_modules
+**/dist
+**/.turbo
+**/.next
+**/coverage
+**/.vite
+**/*.log
+.git
+.github
+.vscode
+.idea
+.env
+.env.*
+!.env.example
+attached_assets

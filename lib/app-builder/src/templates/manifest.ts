@@ -1,0 +1,1 @@
+export const TEMPLATE_CATEGORIES = ['mobile', 'pwa', 'desktop', 'dashboard', 'crm', 'pos', 'restaurant', 'booking', 'chat', 'ai', 'ecommerce', 'education', 'healthcare', 'productivity', 'business', 'shared'] as const;

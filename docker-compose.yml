@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cyberai
+      POSTGRES_USER: cyberai
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cyberai_dev}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cyberai -d cyberai"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: postgres://cyberai:${POSTGRES_PASSWORD:-cyberai_dev}@postgres:5432/cyberai
+      REDIS_URL: redis://redis:6379
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:5173}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      OPENROUTER_MEDIA_API_KEY: ${OPENROUTER_MEDIA_API_KEY}
+      OPENROUTER_CODE_API_KEY: ${OPENROUTER_CODE_API_KEY}
+      OPENROUTER_CODE_MODEL: ${OPENROUTER_CODE_MODEL:-qwen/qwen3-coder:free}
+      OPENROUTER_QWEN_VIDEO_MODEL: ${OPENROUTER_QWEN_VIDEO_MODEL:-alibaba/wan-2.7}
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      GROQ_MODEL: ${GROQ_MODEL:-qwen/qwen3.6-27b}
+      HF_TOKEN: ${HF_TOKEN}
+      HF_VIDEO_MODEL: ${HF_VIDEO_MODEL:-Wan-AI/Wan2.2-TI2V-5B}
+      HF_VIDEO_PROVIDER: ${HF_VIDEO_PROVIDER:-auto}
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:
+  redisdata:

@@ -1,0 +1,40 @@
+{
+  "totalFiles": 1544,
+  "typescript": 1228,
+  "tsx": 185,
+  "markdown": 63,
+  "sql": 4,
+  "packages": 21,
+  "agents": 18,
+  "workers": 4,
+  "apiRoutes": 29,
+  "reactComponents": 84,
+  "testFiles": 61,
+  "migrations": 2,
+  "staticFindings": {
+    "todos": 3,
+    "anyUsage": 69,
+    "consoleLogOutsideTests": 10,
+    "evalNewFunction": 1,
+    "nonNullAssertions": 157,
+    "processEnvDirectReads": 23,
+    "hardcodedSecrets": 0
+  },
+  "scores": {
+    "architecture": 9,
+    "codeQuality": 9,
+    "maintainability": 9,
+    "scalability": 8,
+    "performance": 8,
+    "security": 9,
+    "aiDesign": 9,
+    "documentation": 8,
+    "testing": 7,
+    "productionReadiness": 8,
+    "overall": 8.4
+  },
+  "recommendation": {
+    "beta": "ready",
+    "production": "ready-after-pre-prod-checklist"
+  }
+}

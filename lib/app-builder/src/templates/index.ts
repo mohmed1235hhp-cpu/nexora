@@ -1,0 +1,16 @@
+export * as mobile from "./mobile";
+export * as pwa from "./pwa";
+export * as desktop from "./desktop";
+export * as dashboard from "./dashboard";
+export * as crm from "./crm";
+export * as pos from "./pos";
+export * as restaurant from "./restaurant";
+export * as booking from "./booking";
+export * as chat from "./chat";
+export * as ai from "./ai";
+export * as ecommerce from "./ecommerce";
+export * as education from "./education";
+export * as healthcare from "./healthcare";
+export * as productivity from "./productivity";
+export * as business from "./business";
+export * as shared from "./shared";

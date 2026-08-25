@@ -1,0 +1,33 @@
+{
+  "name": "@workspace/phase8",
+  "version": "0.8.0",
+  "private": true,
+  "type": "module",
+  "description": "Phase 8 — Unified AI/Agents pipeline, durable queue, real worker pool, hosting/server manager, monitoring bus, project detector, artifact signing, sandboxing.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./pipeline": "./src/pipeline/index.ts",
+    "./queue": "./src/queue/index.ts",
+    "./workers": "./src/workers/index.ts",
+    "./hosting": "./src/hosting/index.ts",
+    "./server-manager": "./src/server-manager/index.ts",
+    "./detector": "./src/detector/index.ts",
+    "./monitoring": "./src/monitoring/index.ts",
+    "./security": "./src/security/index.ts",
+    "./cache": "./src/cache/index.ts",
+    "./artifacts": "./src/artifacts/index.ts",
+    "./proxy": "./src/proxy/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@workspace/deploy-platform": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "vitest": "^2.1.9"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@workspace/media-ai",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Media AI — provider-agnostic layer for image, voice, speech, OCR, documents, files. Routes through AI Router + Multi-Agent + Workflow Engine.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./router": "./src/router/MediaAIRouter.ts",
+    "./agents": "./src/agents/index.ts",
+    "./workflow": "./src/workflow/index.ts",
+    "./image": "./src/image/index.ts",
+    "./voice": "./src/voice/index.ts",
+    "./speech": "./src/speech/index.ts",
+    "./ocr": "./src/ocr/index.ts",
+    "./documents": "./src/documents/index.ts",
+    "./files": "./src/files/index.ts",
+    "./types": "./src/types/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@workspace/ai-core": "workspace:*",
+    "@workspace/core": "workspace:*",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "~5.9.3",
+    "vitest": "^2.1.9"
+  }
+}

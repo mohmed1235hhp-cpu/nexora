@@ -1,0 +1,62 @@
+# Additive OpenAPI fragment for v6. Merge into openapi.yaml or generate with openapi-merge.
+paths:
+  /api/profile/me:
+    get:
+      summary: Current user profile
+      tags: [Profile]
+      security: [{ bearerAuth: [] }]
+      responses: { "200": { $ref: "#/components/responses/Ok" }, "401": { $ref: "#/components/responses/Unauthorized" } }
+    patch:
+      summary: Update current user profile
+      tags: [Profile]
+      security: [{ bearerAuth: [] }]
+      requestBody: { required: true, content: { application/json: { schema: { $ref: "#/components/schemas/UpdateProfile" } } } }
+      responses: { "200": { $ref: "#/components/responses/Ok" } }
+  /api/portfolio:
+    get:
+      summary: List portfolio items (cursor pagination)
+      tags: [Portfolio]
+      parameters:
+        - { name: cursor, in: query, schema: { type: string } }
+        - { name: limit,  in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 20 } }
+      responses: { "200": { $ref: "#/components/responses/CursorPage" } }
+    post:
+      summary: Create portfolio item
+      tags: [Portfolio]
+      security: [{ bearerAuth: [] }]
+      responses: { "201": { $ref: "#/components/responses/Ok" } }
+  /api/chat/messages:
+    post:
+      summary: Send chat message
+      tags: [Chat]
+      security: [{ bearerAuth: [] }]
+      responses: { "201": { $ref: "#/components/responses/Ok" } }
+  /api/notifications:
+    get:
+      summary: List notifications
+      tags: [Notifications]
+      security: [{ bearerAuth: [] }]
+      responses: { "200": { $ref: "#/components/responses/CursorPage" } }
+  /api/reports:
+    post:
+      summary: Report content
+      tags: [Moderation]
+      security: [{ bearerAuth: [] }]
+      responses: { "201": { $ref: "#/components/responses/Ok" } }
+components:
+  responses:
+    CursorPage:
+      description: Cursor-paginated list
+      content: { application/json: { schema: { type: object, required: [data, meta], properties: {
+        data: { type: array, items: {} },
+        meta: { type: object, properties: { nextCursor: { type: string, nullable: true }, count: { type: integer } } }
+      } } } }
+  schemas:
+    UpdateProfile:
+      type: object
+      properties:
+        displayName: { type: string, maxLength: 80 }
+        bio:         { type: string, maxLength: 500 }
+        avatarUrl:   { type: string, format: uri }
+        location:    { type: string, maxLength: 120 }
+        website:     { type: string, format: uri }

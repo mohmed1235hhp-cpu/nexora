@@ -1,0 +1,28 @@
+{
+  "name": "@workspace/platform-core",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Phase 1 AI Platform Core — top-level facade over @workspace/ai-core and @workspace/agents. Implements User → AI Core → TaskManager → AI Orchestrator → Agents flow.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./types": "./src/types/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@workspace/ai-core": "workspace:*",
+    "@workspace/agents": "workspace:*",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4"
+  }
+}

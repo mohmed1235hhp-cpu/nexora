@@ -1,0 +1,29 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./lib/api-zod"
+    },
+    {
+      "path": "./lib/core"
+    },
+    {
+      "path": "./lib/db"
+    },
+    {
+      "path": "./lib/agents"
+    },
+    {
+      "path": "./lib/ai-core"
+    },
+    {
+      "path": "./lib/app-builder"
+    },
+    {
+      "path": "./lib/api-client-react"
+    },
+    {
+      "path": "./lib/media-ai"
+    }
+  ]
+}

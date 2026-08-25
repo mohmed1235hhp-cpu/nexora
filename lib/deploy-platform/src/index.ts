@@ -1,0 +1,32 @@
+export * as types from './types/index.js';
+export * as interfaces from './interfaces/index.js';
+export * as utils from './utils/index.js';
+export * as build from './build/index.js';
+export * as queue from './queue/index.js';
+export * as workers from './workers/index.js';
+export * as hosting from './hosting/index.js';
+export * as serverManager from './server-manager/index.js';
+export * as artifacts from './artifacts/index.js';
+export * as history from './history/index.js';
+export * as reports from './reports/index.js';
+export * as monitoring from './monitoring/index.js';
+export * as timeline from './timeline/index.js';
+export * as preview from './preview/index.js';
+export * as security from './security/index.js';
+export * as performance from './performance/index.js';
+
+// Convenience composition
+export { BuildEngine } from './build/engine.js';
+export { BuildPipeline } from './build/pipeline.js';
+export { QueueManager } from './queue/queue-manager.js';
+export { WorkerPool } from './workers/worker-pool.js';
+export { WorkerScheduler } from './workers/worker-scheduler.js';
+export { WorkerMonitor } from './workers/worker-monitor.js';
+export { TaskDispatcher } from './workers/task-dispatcher.js';
+export { InMemoryArtifactStore } from './artifacts/artifact-store.js';
+export { HostingService } from './hosting/hosting-service.js';
+export { PreviewService } from './preview/preview-service.js';
+export { ReportGenerator } from './reports/report-generator.js';
+export { MonitoringDashboard } from './monitoring/dashboard.js';
+export { TimelineStream } from './timeline/timeline.js';
+export { ServerRegistryPlaceholder } from './server-manager/server-registry.js';

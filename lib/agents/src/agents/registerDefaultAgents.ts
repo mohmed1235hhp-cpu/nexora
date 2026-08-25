@@ -1,0 +1,40 @@
+import type { MasterOrchestrator } from "../orchestrator/MasterOrchestrator";
+import { RequestAgent, RequestAgentDescriptor } from "./request";
+import { PlanningAgent, PlanningAgentDescriptor } from "./planning";
+import { ResearchAgent, ResearchAgentDescriptor } from "./research";
+import { ArchitectureAgent, ArchitectureAgentDescriptor } from "./architecture";
+import { CodingAgent, CodingAgentDescriptor } from "./coding";
+import { ReviewAgent, ReviewAgentDescriptor } from "./review";
+import { DebugAgent, DebugAgentDescriptor } from "./debug";
+import { TestingAgent, TestingAgentDescriptor } from "./testing";
+import { DocumentationAgent, DocumentationAgentDescriptor } from "./documentation";
+import { DeploymentAgent, DeploymentAgentDescriptor } from "./deployment";
+import { WebsiteAgent, WebsiteAgentDescriptor } from "./website";
+import { ApplicationAgent, ApplicationAgentDescriptor } from "./application";
+import { ImageAgent, ImageAgentDescriptor } from "./image";
+import { VoiceAgent, VoiceAgentDescriptor } from "./voice";
+import { FileAgent, FileAgentDescriptor } from "./file";
+import { SecurityAgent, SecurityAgentDescriptor } from "./security";
+import { PerformanceAgent, PerformanceAgentDescriptor } from "./performance";
+import { MonitoringAgent, MonitoringAgentDescriptor } from "./monitoring";
+
+export function registerDefaultAgents(o: MasterOrchestrator): void {
+  o.registerAgent(new RequestAgent(), RequestAgentDescriptor);
+  o.registerAgent(new PlanningAgent(), PlanningAgentDescriptor);
+  o.registerAgent(new ResearchAgent(), ResearchAgentDescriptor);
+  o.registerAgent(new ArchitectureAgent(), ArchitectureAgentDescriptor);
+  o.registerAgent(new CodingAgent(), CodingAgentDescriptor);
+  o.registerAgent(new ReviewAgent(), ReviewAgentDescriptor);
+  o.registerAgent(new DebugAgent(), DebugAgentDescriptor);
+  o.registerAgent(new TestingAgent(), TestingAgentDescriptor);
+  o.registerAgent(new DocumentationAgent(), DocumentationAgentDescriptor);
+  o.registerAgent(new DeploymentAgent(), DeploymentAgentDescriptor);
+  o.registerAgent(new WebsiteAgent(), WebsiteAgentDescriptor);
+  o.registerAgent(new ApplicationAgent(), ApplicationAgentDescriptor);
+  o.registerAgent(new ImageAgent(), ImageAgentDescriptor);
+  o.registerAgent(new VoiceAgent(), VoiceAgentDescriptor);
+  o.registerAgent(new FileAgent(), FileAgentDescriptor);
+  o.registerAgent(new SecurityAgent(), SecurityAgentDescriptor);
+  o.registerAgent(new PerformanceAgent(), PerformanceAgentDescriptor);
+  o.registerAgent(new MonitoringAgent(), MonitoringAgentDescriptor);
+}

@@ -1,0 +1,20 @@
+import type { AppType } from "../core/types";
+export const APP_TYPES: { value: AppType; label: string; emoji: string }[] = [
+  { value: "mobile", label: "Mobile", emoji: "📱" },
+  { value: "android", label: "Android", emoji: "🤖" },
+  { value: "ios", label: "iOS", emoji: "🍎" },
+  { value: "pwa", label: "PWA", emoji: "🌐" },
+  { value: "desktop", label: "Desktop", emoji: "🖥" },
+  { value: "dashboard", label: "Dashboard", emoji: "📊" },
+  { value: "crm", label: "CRM", emoji: "👥" },
+  { value: "pos", label: "POS", emoji: "🧾" },
+  { value: "restaurant", label: "Restaurant", emoji: "🍽" },
+  { value: "booking", label: "Booking", emoji: "📅" },
+  { value: "chat", label: "Chat", emoji: "💬" },
+  { value: "ai", label: "AI", emoji: "🤖" },
+  { value: "ecommerce", label: "E-Commerce", emoji: "🛒" },
+  { value: "education", label: "Education", emoji: "🎓" },
+  { value: "healthcare", label: "Healthcare", emoji: "🏥" },
+  { value: "productivity", label: "Productivity", emoji: "⚡" },
+  { value: "business", label: "Business", emoji: "💼" },
+];

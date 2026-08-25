@@ -1,0 +1,30 @@
+{
+  "name": "@workspace/observability",
+  "version": "1.0.0-phase2",
+  "private": true,
+  "type": "module",
+  "description": "Independent observability platform — Phase 1+2: Core, Logging, Health, Metrics, Dashboards, Security, Performance, Analytics, Alerts, Auto-Recovery, Reports.",
+  "exports": {
+    ".":            "./src/index.ts",
+    "./core":       "./src/core/index.ts",
+    "./logging":    "./src/logging/index.ts",
+    "./health":     "./src/health/index.ts",
+    "./metrics":    "./src/metrics/index.ts",
+    "./dashboards": "./src/dashboards/index.ts",
+    "./security":    "./src/security/index.ts",
+    "./performance": "./src/performance/index.ts",
+    "./analytics":   "./src/analytics/index.ts",
+    "./alerts":      "./src/alerts/index.ts",
+    "./recovery":    "./src/recovery/index.ts",
+    "./reports":     "./src/reports/index.ts"
+  },
+  "scripts": {
+    "build":     "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test":      "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "vitest": "^2.1.9"
+  }
+}

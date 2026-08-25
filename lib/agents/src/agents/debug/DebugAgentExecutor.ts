@@ -1,0 +1,32 @@
+import type { AgentCapability, AgentContext } from "../../types/agent.types";
+import type { AgentTask } from "../../types/task.types";
+import type { AgentResult } from "../../types/result.types";
+import { AgentBase } from "../../core/AgentBase";
+import { AgentError, AgentErrorCode } from "../../core/AgentErrors";
+import { DebugAgentService } from "./DebugAgentService";
+import { DebugAgentValidator } from "./DebugAgentValidator";
+import type { IDebugAgent } from "./DebugAgentInterface";
+
+export class DebugAgent extends AgentBase implements IDebugAgent {
+  readonly id = "debug";
+  readonly name = "DebugAgent";
+  readonly capabilities: AgentCapability[] = ["debugging"];
+
+  private validator = new DebugAgentValidator();
+
+  protected async doExecute(task: AgentTask, ctx: AgentContext): Promise<AgentResult> {
+    const validation = this.validator.validate(task);
+    if (!validation.valid) {
+      throw new AgentError(AgentErrorCode.ValidationFailed, validation.errors.join("; "), this.id, task.id);
+    }
+    const service = new DebugAgentService(ctx.router);
+    const result = await service.run(task.input, task.metadata);
+    return {
+      ok: result.ok,
+      output: result.output,
+      error: result.error,
+      durationMs: 0,
+      decisions: [`DebugAgent completed capability 'debugging'`],
+    };
+  }
+}

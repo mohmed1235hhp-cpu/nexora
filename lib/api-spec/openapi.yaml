@@ -1,0 +1,440 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.2.0
+  description: |
+    Cyber AI platform API specification.
+    Covers: health, auth, users, portfolio, feed, follow, friends,
+    stories, chat, notifications, search, reputation, privacy, reports,
+    admin, analytics, ai-governance.
+servers:
+  - url: /api
+    description: Base API path
+
+tags:
+  - name: health
+  - name: auth
+  - name: users
+  - name: portfolio
+  - name: feed
+  - name: follow
+  - name: stories
+  - name: chat
+  - name: notifications
+  - name: search
+  - name: reputation
+  - name: privacy
+  - name: reports
+  - name: admin
+
+security:
+  - bearerAuth: []
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Liveness probe
+      security: []
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/HealthStatus" }
+
+  /readyz:
+    get:
+      operationId: readinessCheck
+      tags: [health]
+      summary: Readiness probe (DB reachable)
+      security: []
+      responses:
+        "200":
+          description: Ready
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ReadinessStatus" }
+        "503":
+          description: Not ready
+
+  /auth/register:
+    post:
+      operationId: register
+      tags: [auth]
+      summary: Register a new account
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/RegisterRequest" }
+      responses:
+        "201":
+          description: Registered
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AuthResponse" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "409": { $ref: "#/components/responses/Conflict" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      summary: Log in with username or email
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/LoginRequest" }
+      responses:
+        "200":
+          description: Logged in
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AuthResponse" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [auth]
+      summary: Invalidate current session
+      responses:
+        "204": { description: Logged out }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /auth/me:
+    get:
+      operationId: getCurrentUser
+      tags: [auth]
+      summary: Return the currently authenticated user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/User" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /users/{userId}:
+    get:
+      operationId: getUser
+      tags: [users]
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          description: User profile
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/UserProfile" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /portfolio:
+    get:
+      operationId: listPortfolio
+      tags: [portfolio]
+      parameters:
+        - $ref: "#/components/parameters/Cursor"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Paginated portfolio items
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PortfolioPage" }
+    post:
+      operationId: createPortfolioItem
+      tags: [portfolio]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PortfolioItemInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PortfolioItem" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /feed:
+    get:
+      operationId: getFeed
+      tags: [feed]
+      parameters:
+        - $ref: "#/components/parameters/Cursor"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Personalized feed
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FeedPage" }
+
+  /follow/{userId}:
+    post:
+      operationId: follow
+      tags: [follow]
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "204": { description: Followed }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+    delete:
+      operationId: unfollow
+      tags: [follow]
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "204": { description: Unfollowed }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+
+  /notifications:
+    get:
+      operationId: listNotifications
+      tags: [notifications]
+      parameters:
+        - $ref: "#/components/parameters/Cursor"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Notifications page
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/NotificationPage" }
+
+  /search:
+    get:
+      operationId: search
+      tags: [search]
+      parameters:
+        - in: query
+          name: q
+          required: true
+          schema: { type: string, minLength: 1, maxLength: 200 }
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum: [users, portfolio, all]
+            default: all
+        - $ref: "#/components/parameters/Cursor"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Search results
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SearchResults" }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: opaque
+
+  parameters:
+    UserId:
+      in: path
+      name: userId
+      required: true
+      schema: { type: integer, minimum: 1 }
+    Cursor:
+      in: query
+      name: cursor
+      schema: { type: string, nullable: true }
+    Limit:
+      in: query
+      name: limit
+      schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    Conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    RateLimited:
+      description: Too many requests
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status: { type: string }
+      required: [status]
+
+    ReadinessStatus:
+      type: object
+      properties:
+        status: { type: string, enum: [ready, not_ready] }
+        db: { type: string, enum: [ok, error] }
+      required: [status, db]
+
+    Error:
+      type: object
+      properties:
+        error: { type: string }
+        requestId: { type: string, nullable: true }
+        issues:
+          type: array
+          items:
+            type: object
+            properties:
+              path: { type: string }
+              code: { type: string }
+              message: { type: string }
+            required: [path, message]
+      required: [error]
+
+    RegisterRequest:
+      type: object
+      properties:
+        username: { type: string, minLength: 3, maxLength: 30, pattern: "^[a-zA-Z0-9_]+$" }
+        email:    { type: string, format: email, maxLength: 255 }
+        password: { type: string, minLength: 8, maxLength: 200 }
+        displayName: { type: string, minLength: 1, maxLength: 100 }
+      required: [username, email, password, displayName]
+
+    LoginRequest:
+      type: object
+      properties:
+        identifier: { type: string, minLength: 3, maxLength: 255, description: "username or email" }
+        password:   { type: string, minLength: 1, maxLength: 200 }
+      required: [identifier, password]
+
+    AuthResponse:
+      type: object
+      properties:
+        token: { type: string }
+        user:  { $ref: "#/components/schemas/User" }
+      required: [token, user]
+
+    User:
+      type: object
+      properties:
+        id: { type: integer }
+        username: { type: string }
+        displayName: { type: string }
+        avatarUrl: { type: string, nullable: true }
+        role: { type: string, enum: [user, moderator, admin, super_admin] }
+      required: [id, username, displayName, role]
+
+    UserProfile:
+      allOf:
+        - $ref: "#/components/schemas/User"
+        - type: object
+          properties:
+            bio: { type: string, nullable: true }
+            followerCount: { type: integer }
+            followingCount: { type: integer }
+            reputation: { type: integer }
+          required: [followerCount, followingCount, reputation]
+
+    PortfolioItemInput:
+      type: object
+      properties:
+        title: { type: string, minLength: 1, maxLength: 200 }
+        description: { type: string, maxLength: 5000 }
+        categoryId: { type: integer, nullable: true }
+        mediaUrl: { type: string, format: uri, nullable: true }
+      required: [title]
+
+    PortfolioItem:
+      allOf:
+        - $ref: "#/components/schemas/PortfolioItemInput"
+        - type: object
+          properties:
+            id: { type: integer }
+            userId: { type: integer }
+            createdAt: { type: string, format: date-time }
+          required: [id, userId, createdAt]
+
+    PortfolioPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/PortfolioItem" }
+        nextCursor: { type: string, nullable: true }
+      required: [items]
+
+    FeedItem:
+      type: object
+      properties:
+        id: { type: integer }
+        kind: { type: string, enum: [portfolio, story, followed_user] }
+        userId: { type: integer }
+        createdAt: { type: string, format: date-time }
+        payload: { type: object, additionalProperties: true }
+      required: [id, kind, userId, createdAt]
+
+    FeedPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/FeedItem" }
+        nextCursor: { type: string, nullable: true }
+      required: [items]
+
+    Notification:
+      type: object
+      properties:
+        id: { type: integer }
+        type: { type: string }
+        read: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        payload: { type: object, additionalProperties: true }
+      required: [id, type, read, createdAt]
+
+    NotificationPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/Notification" }
+        nextCursor: { type: string, nullable: true }
+        unreadCount: { type: integer }
+      required: [items, unreadCount]
+
+    SearchResults:
+      type: object
+      properties:
+        users:
+          type: array
+          items: { $ref: "#/components/schemas/User" }
+        portfolio:
+          type: array
+          items: { $ref: "#/components/schemas/PortfolioItem" }
+        nextCursor: { type: string, nullable: true }
+      required: [users, portfolio]

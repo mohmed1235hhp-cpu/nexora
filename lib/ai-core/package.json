@@ -1,0 +1,28 @@
+{
+  "name": "@workspace/ai-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "AI Core — single source of truth for all AI functionality in the workspace (router, providers, tasks, prompts, memory, context, reliability, rate-limit, cache, logging, monitoring).",
+  "exports": {
+    ".": "./src/index.ts",
+    "./router": "./src/router/AIRouter.ts",
+    "./types": "./src/types/task.types.ts",
+    "./providers": "./src/providers/ProviderManager.ts",
+    "./testing": "./src/testing/mocks/MockProvider.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "~5.9.3",
+    "vitest": "^2.1.9"
+  },
+  "dependencies": {
+    "@workspace/db": "workspace:*",
+    "drizzle-orm": "catalog:"
+  }
+}
