@@ -16,11 +16,11 @@
   },
   "private": true,
   "devDependencies": {
-    "@rollup/rollup-android-arm64": "^4.62.5",
+    "@rollup/rollup-android-arm64": "^4.64.8",
     "@tailwindcss/oxide-android-arm64": "^4.3.3",
     "@types/node": "catalog:",
     "lightningcss-android-arm64": "^1.33.0",
-    "prettier": "^3.8.4",
-    "typescript": "~5.9.3"
+    "prettier": "^3.9.10",
+    "typescript": "~7.0.2"
   }
 }
